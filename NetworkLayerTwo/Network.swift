@@ -7,8 +7,12 @@
 
 import Foundation
 
-final class Network {
-    func getPosts (stringURL: String) {
+protocol NetworkProtocol {
+    func getPosts (stringURL: String, complition: @escaping ([Post]) -> ())
+}
+
+final class Network: NetworkProtocol {
+    func getPosts (stringURL: String, complition: @escaping ([Post]) -> ()) {
         guard let url = URL(string: stringURL) else { return }
         
         let shared = URLSession.shared
@@ -18,7 +22,7 @@ final class Network {
             
             do {
                 let posts = try JSONDecoder().decode([Post].self, from: data)
-                print(posts)
+                complition(posts)
             } catch let error {
                 print(error)
             }

@@ -13,7 +13,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
 
     func scene(_ scene: UIScene, willConnectTo session: UISceneSession, options connectionOptions: UIScene.ConnectionOptions) {
-        let vc = PostsViewController()
+        let vc = Builder.makePostsViewController()
         
         window = UIWindow(frame: UIScreen.main.bounds)
         window?.rootViewController = vc

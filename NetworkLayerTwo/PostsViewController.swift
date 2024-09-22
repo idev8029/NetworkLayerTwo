@@ -13,7 +13,20 @@ final class PostsViewController: UIViewController {
     
     private let tableView = UITableView()
     
-    private let network = Network()
+    private let network: NetworkProtocol
+    
+    private var posts = [Post]()
+    
+    // MARK: - Init
+    
+    init(network: NetworkProtocol) {
+        self.network = network
+        super.init(nibName: nil, bundle: nil)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
     
     // MARK: - Life cycle
     
@@ -35,7 +48,14 @@ private extension PostsViewController {
         layout()
     }
     func setupBinding() {
-        network.getPosts(stringURL: "https://jsonplaceholder.typicode.com/posts")
+        network.getPosts(stringURL: URLs.posts) { [weak self] posts in
+            guard let self = self else { return }
+            
+            DispatchQueue.main.async {
+                self.posts = posts
+                self.tableView.reloadData()
+            }
+        }
     }
 }
 
@@ -73,13 +93,15 @@ private extension PostsViewController {
 
 extension PostsViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 10
+        return posts.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "Cell", for: indexPath)
         
-        cell.textLabel?.text = "1"
+        let title = posts[indexPath.row].title
+        
+        cell.textLabel?.text = title
         
         return cell
     }
