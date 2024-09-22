@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct Post {
+struct Post: Decodable {
     /// ID пользователя, который оставил комментарий
     let userId: Int
     /// ID поста

@@ -13,6 +13,8 @@ final class PostsViewController: UIViewController {
     
     private let tableView = UITableView()
     
+    private let network = Network()
+    
     // MARK: - Life cycle
     
     override func viewDidLoad() {
@@ -33,7 +35,7 @@ private extension PostsViewController {
         layout()
     }
     func setupBinding() {
-        
+        network.getPosts(stringURL: "https://jsonplaceholder.typicode.com/posts")
     }
 }
 
