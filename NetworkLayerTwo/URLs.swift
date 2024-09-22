@@ -8,5 +8,5 @@
 import Foundation
 
 enum URLs {
-    static let posts = "https://jsonplaceholder.typicode.com/posts"
+    static let posts = "https://libertas.kz/wp-content/uploads/posts.json"
 }
